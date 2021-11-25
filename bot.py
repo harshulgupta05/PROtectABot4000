@@ -63,7 +63,7 @@ async def on_message(message):
 
 @bot.event
 async def on_message(message):
-    bad_webs = ["google", "foxnews"]
+    bad_webs = ["google", "www.foxnews"]
     msg_content = message.content.lower()
     #if link, check it, reply to message
     if "https://" in msg_content:
