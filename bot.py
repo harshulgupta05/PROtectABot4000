@@ -57,7 +57,16 @@ async def on_message(message):
     if any(flag in msg_content for flag in flags):
         await message.channel.send("You used a bad word!")
 
-
+@client.event
+async def on_message(message):
+    bad_webs = ["google", "foxnews"]
+    msg_content = message.content.lower()
+    #if link, check it, reply to message
+    if "https://" in msg_content:
+        website = urlextractor.find_urls(msg_content)[0]
+        name = website.split("https://")[1].split(".com")[0]
+        if name.lower() in bad_webs:
+            await message.reply("BAD BOO")
 
 # client.run(TOKEN)
 bot.run(TOKEN)
