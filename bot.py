@@ -57,7 +57,7 @@ async def on_message(message):
     if any(flag in msg_content for flag in flags):
         await message.channel.send("You used a bad word!")
 
-@client.event
+@bot.event
 async def on_message(message):
     bad_webs = ["google", "foxnews"]
     msg_content = message.content.lower()
