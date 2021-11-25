@@ -8,27 +8,30 @@ load_dotenv()
 TOKEN = os.getenv('TOKEN')
 
 bot = commands.Bot(command_prefix='PROT')
-
-@bot.event
-async def ready():
-    print(f'{bot.user.name} has connected to Discord.')
-
-@bot.event
-async def on_join(guild):
-    path = "servers/" + str(guild.id)
-    try:
-        os.mkdir(path)
-
-        data = {
-            "flags": ["flag"],
-            "members": guild.members,
-        }
-
-        path = path + "/settings.json"
-
-        os.mkdir(path)
-    except FileExistsError:
-        path = "servers/" + str(guild.id) + "/settings.json"
+# client = discord.Client()
+# 
+# @client.event
+# async def on_ready():
+#     print(f'{bot.user.name} has connected to Discord.')
+#     # await channel.send(f'{bot.user.name} has connected to Discord')
+# 
+# @client.event
+# async def on_join():
+#     for guild in bot.guilds:
+#         path = "servers/" + str(guild.id)
+#         try:
+#             os.mkdir(path)
+# 
+#             data = {
+#                 "flags": ["flag"],
+#                 "members": guild.members,
+#             }
+# 
+#             path = path + "/settings.json"
+# 
+#             os.mkdir(path)
+#         except FileExistsError:
+#             path = "servers/" + str(guild.id) + "/settings.json"
     
 @bot.command(name='add')
 async def add_to_flags(ctx, arg):
@@ -56,5 +59,5 @@ async def on_message(message):
 
 
 
-    
+# client.run(TOKEN)
 bot.run(TOKEN)
