@@ -51,7 +51,7 @@ async def add_to_flags(ctx, arg):
 @bot.event
 async def on_message(message):
     msg_content = message.content.lower()
-    path = "servers/" + str(message.guild.name) + "/settings.json"
+    path = "servers/" + str(message.guild.id) + ".json"
     data = json.load(open(path, 'r'))
     flags = data['flags']
     if any(flag in msg_content for flag in flags):
