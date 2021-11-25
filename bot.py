@@ -1,8 +1,10 @@
-import discord, os , dotenv, json
+import discord, os , dotenv, json, urlextract
 
 from dotenv import load_dotenv
 
 from discord.ext import commands
+
+from urlextract import URLExtract as urlextractor
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
@@ -63,7 +65,7 @@ async def on_message(message):
     msg_content = message.content.lower()
     #if link, check it, reply to message
     if "https://" in msg_content:
-        website = urlextractor.find_urls(msg_content)[0]
+        website = urlextractor.find_urls(msg_content)
         name = website.split("https://")[1].split(".com")[0]
         if name.lower() in bad_webs:
             await message.reply("BAD BOO")
