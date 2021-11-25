@@ -13,4 +13,14 @@ bot = commands.Bot(command_prefix='PROT')
 async def ready():
     print(f'{bot.user.name} has connected to Discord.')
 
+# deletes messages in list "word"
+@client.event
+async def on_message(message):
+    msg_content = message.content.lower()
+    words = ["chink"]
+    if any(word in msg_content for word in words):
+        await message.delete()
+
+
+    
 bot.run(TOKEN)
