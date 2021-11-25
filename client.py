@@ -10,23 +10,22 @@ client = discord.Client()
 @client.event
 async def on_ready():
     print('PROTect has connected to Discord.')
-    # await channel.send(f'{bot.user.name} has connected to Discord')
-
-@client.event
-async def on_join():
     for guild in client.guilds:
-        path = "servers/" + str(guild.id)
+        path = "servers/" + str(guild.id) + ".json"
+        print(path)
         try:
-            os.mkdir(path)
+            # os.mkdir(path)
 
             data = {
                 "flags": ["flag"],
-                "members": guild.members,
             }
 
-            path = path + "/settings.json"
+            # path = path + "/settings.json"
 
-            os.mkdir(path)
+            # os.mkdir(path)
+            f = open(path, 'x')
+            f = open(path, 'w')
+            json.dump(data, f)
         except FileExistsError:
             path = "servers/" + str(guild.id) + "/settings.json"
 
