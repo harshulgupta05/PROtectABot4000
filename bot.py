@@ -7,9 +7,6 @@ from discord.ext import commands
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
 
-from urlextract import URLExtract
-urlextractor = URLExtract()
-
 bot = commands.Bot(command_prefix='PROT')
 # client = discord.Client()
 # 
