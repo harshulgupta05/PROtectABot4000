@@ -4,12 +4,8 @@ from dotenv import load_dotenv
 
 from discord.ext import commands
 
-from urlextract import URLExtract as urlextractor
-
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
-
-from urlextract import URLExtract as urlextractor
 
 bot = commands.Bot(command_prefix='PROT')
 # client = discord.Client()
