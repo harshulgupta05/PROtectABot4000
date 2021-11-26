@@ -63,13 +63,17 @@ bot = commands.Bot(command_prefix='PROT')
 @bot.command(name='add')
 async def add_to_flags(ctx, arg):
     if ctx.message.author.guild_permissions.administrator:
-        path = "servers/" + str(ctx.guild.id) + "/settings.json"
+        path = "servers/" + str(ctx.guild.id) + ".json"
         serverSettings = json.load(open(path, 'r'))
-        serverSettings['flags'] = serverSettings['flags'].append(arg)
+        currentFlags = serverSettings['flags']
+        currentFlags.append(arg)
+        serverSettings['flags'] = currentFlags
 
         os.remove(path)
 
-        json.dump(serverSettings, open(path, 'w'))
+        f = open(path, 'x')
+        f = open(path, 'w')
+        json.dump(serverSettings, f)
     else:
         await ctx.send("Only admins can add to the list of flags.")
 
