@@ -81,6 +81,8 @@ async def add_to_flags(ctx, arg):
 #for suggest and suggested
 suggested_flags = []
 message_url = []
+help_list = []
+
 
 @bot.command()
 async def suggest(ctx):
@@ -93,23 +95,22 @@ async def suggest(ctx):
     msg = await ctx.reply(embed=text)
     await msg.add_reaction("👍")
     await msg.add_reaction("👎")
+    # await author.send(f'A new poll has been made to suggest "{flag}" as a flag.')
     suggested_flags.append(flag)
-    message_url.append(ctx.msg.jump_url)
+    message_url.append(msg.jump_url)
 
 
 @bot.command()
 async def suggested(ctx):
-    help_list = []
     for i in range(len(suggested_flags)):
         flag = suggested_flags[i]
-        id = message_url[i]
+        url = message_url[i]
         # if flag in list, dont add – omit duplication
-        x = f"**Word:**\n{flag}\n**Poll:**\n{id}\n"
+        x = f"**Word:** {flag}\n**Poll:** {url}\n"
         help_list.append(x)
-
-    text = discord.Embed(title="Suggested Words",
-                         description=''.join(help_list), color=discord.Color(0xFFFF00))
-    await ctx.send(embed=text)
+    text = discord.Embed(title='Suggested Words', description=''.join(
+        help_list), color=discord.Color((0xFFFF00)))
+    await ctx.reply(embed=text)
 
 # client.run(TOKEN)
 bot.run(TOKEN)
