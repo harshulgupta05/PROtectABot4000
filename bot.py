@@ -3,6 +3,8 @@ import discord, os , dotenv, json, urlextract
 from dotenv import load_dotenv
 
 from discord.ext import commands
+from discord.utils import get
+import time
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
@@ -70,6 +72,7 @@ async def add_to_flags(ctx, arg):
 @bot.command()
 async def suggest(ctx):
     author = ctx.message.author
+    Admin = get(ctx.guild.roles, name="Admin")
     msg = ctx.message.content
     flag = msg.split("suggest ")[1]
     text = discord.Embed(
@@ -77,6 +80,9 @@ async def suggest(ctx):
     msg = await ctx.reply(embed=text)
     await msg.add_reaction("👍")
     await msg.add_reaction("👎")
+    await author.send(f'A new poll has been made to suggest "{flag}" as a flag.')
+    time.sleep(10)
+    await msg.reply(f"Review this poll {Admin.mention}")
 
 # client.run(TOKEN)
 bot.run(TOKEN)
