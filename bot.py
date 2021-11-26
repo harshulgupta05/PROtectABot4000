@@ -32,20 +32,6 @@ bot = commands.Bot(command_prefix='PROT')
 #             os.mkdir(path)
 #         except FileExistsError:
 #             path = "servers/" + str(guild.id) + "/settings.json"
-    
-@bot.command(name='add')
-async def add_to_flags(ctx, arg):
-    if ctx.message.author.guild_permissions.administrator:
-        path = "servers/" + str(ctx.guild.id) + "/settings.json"
-        serverSettings = json.load(open(path, 'r'))
-        serverSettings['flags'] = serverSettings['flags'].append(arg)
-
-        os.remove(path)
-
-        json.dump(serverSettings, open(path, 'w'))
-    else:
-        await ctx.send("Only admins can add to the list of flags.")
-
 
 # deletes messages in list "word"
 @bot.event
@@ -66,6 +52,31 @@ async def on_message(message):
         name = msg_content.split("https://")[1].split(".com")[0]
         if name.lower() in bad_webs:
             await message.reply("BAD BOO")
+
+@bot.command(name='add')
+async def add_to_flags(ctx, arg):
+    if ctx.message.author.guild_permissions.administrator:
+        path = "servers/" + str(ctx.guild.id) + "/settings.json"
+        serverSettings = json.load(open(path, 'r'))
+        serverSettings['flags'] = serverSettings['flags'].append(arg)
+
+        os.remove(path)
+
+        json.dump(serverSettings, open(path, 'w'))
+    else:
+        await ctx.send("Only admins can add to the list of flags.")
+
+            
+@bot.command()
+async def suggest(ctx):
+    author = ctx.message.author
+    msg = ctx.message.content
+    flag = msg.split("suggest ")[1]
+    text = discord.Embed(
+        title=f"Should this be a flag?", description=flag, color=discord.Color((0x0000FF)))
+    msg = await ctx.reply(embed=text)
+    await msg.add_reaction("👍")
+    await msg.add_reaction("👎")
 
 # client.run(TOKEN)
 bot.run(TOKEN)
