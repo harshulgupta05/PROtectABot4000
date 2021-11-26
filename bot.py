@@ -77,22 +77,39 @@ async def add_to_flags(ctx, arg):
     else:
         await ctx.send("Only admins can add to the list of flags.")
 
-            
-@bot.command(name='suggest')
-async def suggest(ctx, arg):
-    print(arg)
+
+#for suggest and suggested
+suggested_flags = []
+message_url = []
+
+@bot.command()
+async def suggest(ctx):
     author = ctx.message.author
     Admin = get(ctx.guild.roles, name="Admin")
     msg = ctx.message.content
-    flag = arg
+    flag = msg.split("suggest ")[1]
     text = discord.Embed(
         title=f"Should this be a flag?", description=flag, color=discord.Color((0x0000FF)))
     msg = await ctx.reply(embed=text)
     await msg.add_reaction("👍")
     await msg.add_reaction("👎")
-    await author.send(f'A new poll has been made to suggest "{flag}" as a flag.')
-    time.sleep(10)
-    await msg.reply(f"Review this poll {Admin.mention}. Use add function to add suggest word/phrase.")
+    suggested_flags.append(flag)
+    message_url.append(ctx.msg.jump_url)
+
+
+@bot.command()
+async def suggested(ctx):
+    help_list = []
+    for i in range(len(suggested_flags)):
+        flag = suggested_flags[i]
+        id = message_url[i]
+        # if flag in list, dont add – omit duplication
+        x = f"**Word:**\n{flag}\n**Poll:**\n{id}\n"
+        help_list.append(x)
+
+    text = discord.Embed(title="Suggested Words",
+                         description=''.join(help_list), color=discord.Color(0xFFFF00))
+    await ctx.send(embed=text)
 
 # client.run(TOKEN)
 bot.run(TOKEN)
