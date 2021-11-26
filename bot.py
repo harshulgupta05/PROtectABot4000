@@ -106,7 +106,7 @@ async def suggested(ctx):
         flag = suggested_flags[i]
         url = message_url[i]
         # if flag in list, dont add – omit duplication
-        x = f"**Word:** {flag}\n**Poll:** {url}\n"
+        x = f"**Word:**\n{flag}\n**Poll:**\n{url}\n"
         help_list.append(x)
     text = discord.Embed(title='Suggested Words', description=''.join(
         help_list), color=discord.Color((0xFFFF00)))
