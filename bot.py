@@ -85,26 +85,45 @@ help_list = []
 
 
 @bot.command(name='suggest')
-async def suggest(ctx):
+async def suggest(ctx, arg):
     author = ctx.message.author
     Admin = get(ctx.guild.roles, name="Admin")
     msg = ctx.message.content
-    flag = msg.split("suggest ")[1]
+    flag = arg
     text = discord.Embed(
         title=f"Should this be a flag?", description=flag, color=discord.Color((0x0000FF)))
     msg = await ctx.reply(embed=text)
     await msg.add_reaction("👍")
     await msg.add_reaction("👎")
     # await author.send(f'A new poll has been made to suggest "{flag}" as a flag.')
+
+    path = "servers/" + str(ctx.guild.id) + ".json"
+    serverSettings = json.load(open(path, 'r'))
+    currentSuggestedFlags = serverSettings['suggestedFlags']
+    currentSuggestedFlagURLs = serverSettings['suggestedFlagURLs']
+    currentSuggestedFlags.append(arg)
+    currentSuggestedFlagURLs.append(msg.jump_url)
+    serverSettings['suggestedFlags'] = currentSuggestedFlags
+    serverSettings['suggestedFlagURLs'] = currentSuggestedFlagURLs
+    os.remove(path)
+    f = open(path, 'x')
+    f = open(path, 'w')
+    json.dump(serverSettings, f)
+
     suggested_flags.append(flag)
     message_url.append(msg.jump_url)
 
 
 @bot.command(name='suggested')
 async def suggested(ctx):
-    for i in range(len(suggested_flags)):
-        flag = suggested_flags[i]
-        url = message_url[i]
+    path = "servers/" + str(ctx.guild.id) + ".json"
+    serverSettings = json.load(open(path, 'r'))
+    currentSuggestedFlags = serverSettings['suggestedFlags']
+    currentSuggestedFlagURLs = serverSettings['suggestedFlagURLs']
+
+    for i in range(len(currentSuggestedFlags)):
+        flag = currentSuggestedFlags[i]
+        url = currentSuggestedFlagURLs[i]
         # if flag in list, dont add – omit duplication
         x = f"**Word:**\n{flag}\n**Poll:**\n{url}\n"
         help_list.append(x)

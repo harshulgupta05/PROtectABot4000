@@ -41,7 +41,9 @@ async def on_ready():
                     "EpochTimes": "right leaning bias",
                     "Federalist": "strong right bias",
                     "Vox": "strong left bias"
-                }
+                },
+                "suggestedFlags": [],
+                "suggestedFlagURLs": [],
             }
 
             # path = path + "/settings.json"
