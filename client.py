@@ -53,4 +53,29 @@ async def on_ready():
         except FileExistsError:
             path = "servers/" + str(guild.id) + "/settings.json"
             
+@client.event
+async def on_message(message):
+    msg_content = message.content.lower()
+    path = "servers/" + str(message.guild.id) + ".json"
+    data = json.load(open(path, 'r'))
+    flags = data['flags']
+    if any(flag in msg_content for flag in flags):
+        await message.channel.send("You used a bad word!")
+
+@client.event
+async def on_message_url(message):    
+    msg_content = message.content.lower()
+    path = "servers/" + str(message.guild.id) + ".json"
+    data = json.load(open(path, 'r'))
+    bad_webs = data['urls']
+    #if link, check it, reply to message
+    if "https://" in msg_content:
+        name = msg_content.split("https://www.")[1].split(".com")[0]
+        print(name)
+        for website in bad_webs.keys():
+            print(str(website))
+            if str(website).lower() in name.lower():
+                await message.reply(f'The url {message.author.name} has posted is for the site {website} which, according to AllSides.com has a bias of {bad_webs.get(website)}. View the linked media at your own discretion.')
+
+
 client.run(TOKEN)
