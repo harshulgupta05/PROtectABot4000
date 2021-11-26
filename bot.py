@@ -10,6 +10,12 @@ load_dotenv()
 TOKEN = os.getenv('TOKEN')
 
 bot = commands.Bot(command_prefix='PROT')
+
+#for suggest and suggested
+suggested_flags = []
+message_url = []
+help_list = []
+
 # client = discord.Client()
 # 
 # @client.event
@@ -76,12 +82,6 @@ async def add_to_flags(ctx, arg):
         json.dump(serverSettings, f)
     else:
         await ctx.send("Only admins can add to the list of flags.")
-
-
-#for suggest and suggested
-suggested_flags = []
-message_url = []
-help_list = []
 
 
 @bot.command(name='suggest')
