@@ -82,7 +82,7 @@ async def add_to_flags(ctx, arg):
 suggested_flags = []
 message_url = []
 
-@bot.command()
+@bot.command(name='suggest')
 async def suggest(ctx):
     author = ctx.message.author
     Admin = get(ctx.guild.roles, name="Admin")
@@ -97,7 +97,7 @@ async def suggest(ctx):
     message_url.append(ctx.msg.jump_url)
 
 
-@bot.command()
+@bot.command(name='suggested')
 async def suggested(ctx):
     help_list = []
     for i in range(len(suggested_flags)):
