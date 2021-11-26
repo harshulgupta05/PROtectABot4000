@@ -66,7 +66,7 @@ async def add_to_flags(ctx, arg):
         path = "servers/" + str(ctx.guild.id) + ".json"
         serverSettings = json.load(open(path, 'r'))
         currentFlags = serverSettings['flags']
-        currentFlags.append(arg)
+        currentFlags.append(str(arg))
         serverSettings['flags'] = currentFlags
 
         os.remove(path)

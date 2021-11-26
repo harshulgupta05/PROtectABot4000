@@ -17,7 +17,7 @@ async def on_ready():
             # os.mkdir(path)
 
             data = {
-                "flags": ["flag"],
+                "flags": ["badword"],
                 "urls": {
                     "ABC": "left leaning bias",
                     "AlterNet": "strong left bias",
