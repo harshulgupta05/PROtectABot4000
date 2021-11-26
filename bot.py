@@ -115,6 +115,7 @@ async def suggest(ctx, arg):
 
 @bot.command(name='suggested')
 async def suggested(ctx):
+    await ctx.reply("working")
     path = "servers/" + str(ctx.guild.id) + ".json"
     serverSettings = json.load(open(path, 'r'))
     currentSuggestedFlags = serverSettings['suggestedFlags']
