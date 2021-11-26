@@ -112,6 +112,7 @@ async def suggest(ctx, arg):
 
     suggested_flags.append(flag)
     message_url.append(msg.jump_url)
+    print(suggested_flags, message_url)
 
 
 @bot.command(name='suggested')
