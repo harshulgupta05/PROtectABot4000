@@ -3,12 +3,11 @@ import discord, os , dotenv, json, urlextract
 from dotenv import load_dotenv
 
 from discord.ext import commands
+from discord.utils import get
+import time
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
-
-from urlextract import URLExtract
-urlextractor = URLExtract()
 
 bot = commands.Bot(command_prefix='PROT')
 # client = discord.Client()
@@ -35,20 +34,6 @@ bot = commands.Bot(command_prefix='PROT')
 #             os.mkdir(path)
 #         except FileExistsError:
 #             path = "servers/" + str(guild.id) + "/settings.json"
-    
-@bot.command(name='add')
-async def add_to_flags(ctx, arg):
-    if ctx.message.author.guild_permissions.administrator:
-        path = "servers/" + str(ctx.guild.id) + "/settings.json"
-        serverSettings = json.load(open(path, 'r'))
-        serverSettings['flags'] = serverSettings['flags'].append(arg)
-
-        os.remove(path)
-
-        json.dump(serverSettings, open(path, 'w'))
-    else:
-        await ctx.send("Only admins can add to the list of flags.")
-
 
 # deletes messages in list "word"
 @bot.event
@@ -74,6 +59,35 @@ async def on_message_url(message):
             print(str(website))
             if str(website).lower() in name.lower():
                 await message.reply(f'The url {message.author.name} has posted is for the site {website} which, according to AllSides.com has a bias of {bad_webs.get(website)}. View the linked media at your own discretion.')
+
+@bot.command(name='add')
+async def add_to_flags(ctx, arg):
+    if ctx.message.author.guild_permissions.administrator:
+        path = "servers/" + str(ctx.guild.id) + "/settings.json"
+        serverSettings = json.load(open(path, 'r'))
+        serverSettings['flags'] = serverSettings['flags'].append(arg)
+
+        os.remove(path)
+
+        json.dump(serverSettings, open(path, 'w'))
+    else:
+        await ctx.send("Only admins can add to the list of flags.")
+
+            
+@bot.command()
+async def suggest(ctx):
+    author = ctx.message.author
+    Admin = get(ctx.guild.roles, name="Admin")
+    msg = ctx.message.content
+    flag = msg.split("suggest ")[1]
+    text = discord.Embed(
+        title=f"Should this be a flag?", description=flag, color=discord.Color((0x0000FF)))
+    msg = await ctx.reply(embed=text)
+    await msg.add_reaction("👍")
+    await msg.add_reaction("👎")
+    await author.send(f'A new poll has been made to suggest "{flag}" as a flag.')
+    time.sleep(10)
+    await msg.reply(f"Review this poll {Admin.mention}")
 
 # client.run(TOKEN)
 bot.run(TOKEN)
