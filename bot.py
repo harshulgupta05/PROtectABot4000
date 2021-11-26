@@ -30,6 +30,7 @@ async def add_to_flags(ctx, arg):
         f = open(path, 'x')
         f = open(path, 'w')
         json.dump(serverSettings, f)
+        
     else:
         await ctx.send("Only admins can add to the list of flags.")
 
