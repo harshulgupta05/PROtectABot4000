@@ -88,7 +88,7 @@ async def suggest(ctx, arg):
     await msg.add_reaction("👎")
     await author.send(f'A new poll has been made to suggest "{flag}" as a flag.')
     time.sleep(10)
-    await msg.reply(f"Review this poll {Admin.mention}")
+    await msg.reply(f"Review this poll {Admin.mention}. Use add function to add suggest word/phrase.")
 
 # client.run(TOKEN)
 bot.run(TOKEN)
